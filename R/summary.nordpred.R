@@ -2,27 +2,25 @@
 
 #' Makes a summary of a nordpred object
 #' 
-#' \code{summary.nordpred} uses a \code{\link{nordpred.object}} to summarize 
+#' \code{summary.nordpred} uses a \code{nordpred} object (see \code{\link{nordpred.object}})
+#' to summarize 
 #' the information
-
 #' 
-#' \code{print.nordpred.estimate} prints the estimation information from a 
-#' \code{\link{nordpred.estimate.object}}.
 #' 
-#' @param nordpred.object An object of class \code{\link{nordpred.object}} 
+#' @param nordpred.object An object of class \code{nordpred} (see \code{\link{nordpred.object}}) 
 #' @param printpred Indicates whether to print the observed and predicted number of cases
 #' @param printcall Indicates whether to print the function call
 #' @param digits Specifies the number of digits in the tabulation
 #' 
-#' @return object of class \code{\link{nordpred.object}}.
+#' @return object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 #' 
 #' @references 
 #' \itemize{
 #' \item A website for nordpred is available at: 
 #' \url{http://www.kreftregisteret.no/software/nordpred/}
 #' \item Background for the methods can be found in: Moller B., Fekjaer H., Hakulinen T., 
-#' Sigvaldason H, Storm H. H., Talback M. and Haldorsen T "Prediction of cancer 
-#' incidence in the Nordic countries: Empirical comparison of different approaches" 
+#' Sigvaldason H, Storm H. H., Talback M. and Haldorsen T 'Prediction of cancer 
+#' incidence in the Nordic countries: Empirical comparison of different approaches' 
 #' Statistics in Medicine 2003; 22:2751-2766
 #' \item An application of the function, using all the default settings, can be 
 #' found in: Moller B, Fekjaer H, Hakulinen T, Tryggvadottir L, Storm HH, Talback M, 
@@ -39,75 +37,76 @@
 #' 
 #' @examples
 #' 
-#' # Reading data (Colon cancer for Norwegian males)
-#' indata <- read.table("data//colon-men-Norway.txt",header =T,sep=",",row.names=1)
-#' inpop1 <- read.table("data//men-Norway.txt",header =T,sep=",",row.names=1)
-#' inpop2 <- read.table("data//men-Norway-pred.txt",header =T,sep=",",row.names=1)
+#' # data (Colon cancer for Norwegian males)
+#' indata 
 #' 
-#' # Include possible population predictions 
-#' inpop <- cbind(inpop1,inpop2)
+#' # Create dataset with observed and predicted population
+#' inpop <- cbind(inpop1, inpop2)
 #' 
 #' # Fit model & predict new incidence:
-#' res <- nordpred(indata,inpop,startestage=5,startuseage=6,cuttrend=c(0,.25,.5,. 75,.75))
-#' res2 <- nordpred(indata,inpop,startestage=5,startuseage=6,
-#'      cuttrend=c(0,.25,.5,. 75,.75),linkfunc="poisson")
+#' res <- nordpred(indata, inpop, startestage = 5, startuseage = 6, cuttrend = c(0,.25,.5,.75,.75))
+#' res2 <- nordpred(indata, inpop, startestage = 5, startuseage = 6,
+#'      cuttrend = c(0, .25, .5, .75, .75), linkfunc = 'poisson')
 #'      
 #' # Print / get results: 
 #' print(res) 
 #' nordpred.getpred(res) 
-#' summary(res,printpred=F)
+#' summary(res, printpred = FALSE)
 #' 
 #' @export
 #' @family nordpred
 
 
-summary.nordpred <- function(nordpred.object,printpred=T,printcall=F,digits=1) {
-     
-    if (class(nordpred.object)!="nordpred") {
-        stop("Variable \"nordpred.object\" must be of type \"nordpred\"")	
-    } 
+summary.nordpred <- function(nordpred.object, printpred = TRUE, printcall = FALSE, digits = 1) {
+    
+    if (class(nordpred.object) != "nordpred") {
+        stop("Variable \"nordpred.object\" must be of type \"nordpred\"")
+    }
     
     # Setting internal variables:
-    obsto <- names(nordpred.object$predictions)[dim(nordpred.object$predictions)[2]-nordpred.object$nopred]
+    obsto <- names(nordpred.object$predictions)[dim(nordpred.object$predictions)[2] - 
+        nordpred.object$nopred]
     
     if (!is.null(nordpred.object$pvaluerecent)) {
-        precent <- round(nordpred.object$pvaluerecent,4)
-    } else { precent <- NA }
+        precent <- round(nordpred.object$pvaluerecent, 4)
+    } else {
+        precent <- NA
+    }
     
     if (!is.null(nordpred.object$gofpvalue)) {
-        gofpvalue <- round(nordpred.object$gofpvalue,4)
-    } else { gofpvalue <- NA }
+        gofpvalue <- round(nordpred.object$gofpvalue, 4)
+    } else {
+        gofpvalue <- NA
+    }
     
-    # Print information about object: 
+    # Print information about object:
     if (printpred) {
         cat("Observed and predicted values:")
-        cat("(observations up to",obsto,")\n")
-        print(round(as.matrix(nordpred.object$predictions),digits=digits))
+        cat("(observations up to", obsto, ")\n")
+        print(round(as.matrix(nordpred.object$predictions), digits = digits))
         cat("\n")
     }
     cat("\nPrediction done with:\n")
     
-    moptions <- matrix(NA,8,2)
-    moptions[,1] <- c("Number of periods predicted (nopred):","Trend used in predictions (cuttrend):",
-                      "Number of periods used in estimate (noperiod):",
-                      "P-value for goodness of fit:",
-                      "Used recent (recent):","P-value for recent:",
-                      "First age group used (startuseage):","First age group estimated (startestage):")        
-    moptions[,2] <- c(nordpred.object$nopred,paste(nordpred.object$cuttrend,collapse=" , "),
-                      nordpred.object$noperiod,gofpvalue,
-                      nordpred.object$recent,precent,
-                      nordpred.object$startuseage,nordpred.object$startestage)
-    maxl <- max(nchar(moptions[,1]))
+    moptions <- matrix(NA, 8, 2)
+    moptions[, 1] <- c("Number of periods predicted (nopred):", "Trend used in predictions (cuttrend):", 
+        "Number of periods used in estimate (noperiod):", "P-value for goodness of fit:", 
+        "Used recent (recent):", "P-value for recent:", "First age group used (startuseage):", 
+        "First age group estimated (startestage):")
+    moptions[, 2] <- c(nordpred.object$nopred, paste(nordpred.object$cuttrend, collapse = " , "), 
+        nordpred.object$noperiod, gofpvalue, nordpred.object$recent, precent, nordpred.object$startuseage, 
+        nordpred.object$startestage)
+    maxl <- max(nchar(moptions[, 1]))
     
     for (i in 1:dim(moptions)[1]) {
-        spaces <- rep (" ",maxl-nchar(moptions[i,1])+2)
-        cat(moptions[i,1],spaces,moptions[i,2],"\n",sep="")	
+        spaces <- rep(" ", maxl - nchar(moptions[i, 1]) + 2)
+        cat(moptions[i, 1], spaces, moptions[i, 2], "\n", sep = "")
     }
     
     if (printcall) {
         cat("\n  Call: ")
-        dput(attr(nordpred.object,"Call"))
+        dput(attr(nordpred.object, "Call"))
     }
     invisible(nordpred.object)
 }
-
+ 

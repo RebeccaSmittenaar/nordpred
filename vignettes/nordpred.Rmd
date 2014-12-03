@@ -1,0 +1,146 @@
+---
+title: "nordpred"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{nordpred}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Background
+
+The Nordpred software package is a package of R and S-PLUS
+functions for predicting trends in cancer incidence, using a special
+version of the Age-Period-Cohort model (APC). The package is originally
+written by Harald Fekjaer and Bjorn Moller at the Cancer Registry of Norway
+as part of a larger cancer prediction project with financial support from
+the Nordic Cancer Union (NCU).
+
+
+# Case study
+
+```{r}
+library(nordpred)
+```
+
+
+## Data sets
+
+Assume we have thre data sets, all with the following properties:
+
+* All cells are numeric (the data set could be a matrix)
+* Each row represents an age group
+* Each column represents a time interval
+
+In this example, all data concerns Norwegian males. Cancer incidence concerns colon cancer.
+
+### 1 Observed population
+
+The example data set `inpop1` gives observed population numbers for five year intervals from 1958 to 1997.
+```{r}
+knitr::kable(inpop1)
+```
+
+### 2 Predicted population
+
+The example data set `inpop2` gives predicted population numbers for five year intervals from 1998 to 2022.
+```{r}
+knitr::kable(inpop2)
+```
+
+### 3 Cancer incidence
+
+The example data set `indata` gives observed number of cancer incidences from the same time period as `inpop1`.
+```{r}
+knitr::kable(inpop2)
+```
+
+### Population
+
+Functions in the nordpred package expect one data set for population data (both observed and predicted values).
+```{r }
+inpop <- cbind(inpop1, inpop2)
+```
+
+## Run predictions
+
+Use `nordpred.estimate` to estimate a model 
+```{r}
+est <- nordpred.estimate(cases=indata, pyr = inpop, noperiod = 4, startestage = 5)
+```
+
+Then, use the outcome (a `nordpred` object) for prediction by `nordpred.prediction`
+```{r}
+res <- nordpred.prediction(est, startuseage = 6, cuttrend = c(0,.25,.5,.75,.75), recent=TRUE)
+```
+Or estimate and predict simultaneously using `nordpred` (same result)
+```{r}
+res <- nordpred(cases = indata, pyr = inpop, startestage = 5, startuseage = 6, 
+                noperiods = 4, cuttrend = c(0, .25, .5, .75, .75))
+```
+
+
+## Choose number of periods
+
+The "nordpred"-function can also choose number periods to base predictions on:
+This is done by listing candidate number of periods in "noperiods". 
+If the goodness of fit test is rejected based on the widest base, 
+the first period is excluded etc.
+```{r}
+res <- nordpred(indata, inpop, startestage = 5, startuseage = 6, noperiods = 4:6,
+                cuttrend=c(0, .25, .5, .75, .75))
+
+```
+
+## Poisson link
+
+We can also use a poisson link function (instead of the powerlink as used in the nordpred predictions).
+```{r}
+est2 <- nordpred.estimate(indata, inpop, 4, 5, linkfunc = "poisson")
+res2 <- nordpred.prediction(est2, startuseage = 6, cuttrend = c(0, .25, .5, .75, .75), recent = TRUE)
+```
+
+## Results
+```{r}
+print(res)
+nordpred.getpred(res)
+summary(res, printpred = FALSE)
+```
+
+
+## Get results with standardisation:
+```{r}
+## World population standard
+wstand <- c(0.12, 0.1, 0.09, 0.09, 0.08, 0.08, 0.06, 0.06, 0.06, 0.06,0.05, 
+            0.04, 0.04, 0.03, 0.02, 0.01, 0.005, 0.005)
+            
+round(nordpred.getpred(res, incidence = TRUE, standpop = NULL), 2)
+round(nordpred.getpred(res, incidence = TRUE, standpop = wstand), 2)
+
+```
+
+## Plot results:
+```{r}
+plot(res, standpop = wstand)
+```
+
+
+## Plot results with power5 and poisson links:
+```{r}
+plot(res2, standpop = wstand)
+plot(res, new = FALSE, lty = c(1, 2), standpop = wstand)
+```
+
+# Different cut trend scenarios
+using average drift (recent = FALSE)
+```{r}
+plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(0, 0, 0, 0, 0), 
+    recent = FALSE), standpop = wstand, new = TRUE)
+plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(1, 1, 1, 1, 1), 
+    recent = FALSE), standpop = wstand, new = FALSE, lty = c(1, 2))
+plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(0, .25, .5, .75, .75), 
+    recent = FALSE), standpop = wstand, new = FALSE, lty = c(1, 4))
+```
+
+

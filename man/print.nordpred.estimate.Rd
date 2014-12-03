@@ -6,14 +6,15 @@
 \method{print}{nordpred.estimate}(nordpred.estimate.object)
 }
 \arguments{
-\item{nordpred.estimate.object}{An object of class \code{\link{nordpred.estimate.object}}}
+\item{nordpred.estimate.object}{An object of class \code{nordpred.estimate}
+(see \code{\link{nordpred.estimate.object}}).}
 }
 \value{
-object of class \code{\link{nordpred}}.
+object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 }
 \description{
 \code{print.nordpred.estimate} prints the estimation information from a
-\code{\link{nordpred.estimate.object}}.
+\code{nordpred.estimate} object (see \code{\link{nordpres.estimate.object}}).
 }
 \section{Note for S-plus}{
 
@@ -22,26 +23,24 @@ for the point estimates, but the variance estimates found via the glm-objects
 are wrong. For variance estimates, we would rather recommend using R.
 }
 \examples{
-# Reading data (Colon cancer for Norwegian males)
-indata <- read.table("data//colon-men-Norway.txt",header =T,sep=",",row.names=1)
-inpop1 <- read.table("data//men-Norway.txt",header =T,sep=",",row.names=1)
-inpop2 <- read.table("data//men-Norway-pred.txt",header =T,sep=",",row.names=1)
+# data (Colon cancer for Norwegian males)
+indata
 
-# Include possible population predictions
-inpop <- cbind(inpop1,inpop2)
+# Create dataset with observed and predicted population
+inpop <- cbind(inpop1, inpop2)
 
 # Fit model using powerlink (default):
-est <- nordpred.estimate(cases=indata,pyr=inpop,noperiod=4,startestage=5)
+est <- nordpred.estimate(cases = indata, pyr = inpop, noperiod = 4, startestage = 5)
 
 # Fit model using poisson link:
-est2 <- nordpred.estimate(indata,inpop,4,5,linkfunc="poisson")
+est2 <- nordpred.estimate(indata, inpop, 4, 5, linkfunc = 'poisson')
 
 # Print results:
 print(est)
 print(est$glm)
 
 # Use estimat object to make predictions:
-res <- nordpred.prediction(est,startuseage=6,cuttrend=c(0,.25,.5,.75,.75),rece nt=T)
+res <- nordpred.prediction(est, startuseage = 6, cuttrend = c(0, .25, .5, .75, .75), recent = TRUE)
 }
 \author{
 Harald Fekjaer and Bjorn Moller (Cancer Registry of Norway)
@@ -51,8 +50,8 @@ Harald Fekjaer and Bjorn Moller (Cancer Registry of Norway)
 \item A website for nordpred is available at:
 \url{http://www.kreftregisteret.no/software/nordpred/}
 \item Background for the methods can be found in: Moller B., Fekjaer H., Hakulinen T.,
-Sigvaldason H, Storm H. H., Talback M. and Haldorsen T "Prediction of cancer
-incidence in the Nordic countries: Empirical comparison of different approaches"
+Sigvaldason H, Storm H. H., Talback M. and Haldorsen T 'Prediction of cancer
+incidence in the Nordic countries: Empirical comparison of different approaches'
 Statistics in Medicine 2003; 22:2751-2766
 \item An application of the function, using all the default settings, can be
 found in: Moller B, Fekjaer H, Hakulinen T, Tryggvadottir L, Storm HH, Talback M,
@@ -61,12 +60,14 @@ year 2020. Eur J Cancer Prev Suppl 2002; 11: S1-S96
 }
 }
 \seealso{
-Other nordpred: \code{\link{nordpred.estimate.object}};
+Other nordpred: \code{\link{is.nordpred.estimate}},
   \code{\link{nordpred.estimate}};
+  \code{\link{is.nordpred}}, \code{\link{nordpred}};
+  \code{\link{nordpred.estimate.object}};
   \code{\link{nordpred.getpred}};
   \code{\link{nordpred.object}};
   \code{\link{nordpred.prediction}};
-  \code{\link{nordpred}}; \code{\link{plot.nordpred}};
+  \code{\link{plot.nordpred}};
   \code{\link{print.nordpred}};
   \code{\link{summary.nordpred}}
 }

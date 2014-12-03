@@ -3,14 +3,13 @@
 \alias{plot.nordpred}
 \title{plots the predicted rates from a nordpred object}
 \usage{
-\method{plot}{nordpred}(nordpred.object, incidence = T, standpop = NULL,
+\method{plot}{nordpred}(nordpred.object, incidence = TRUE, standpop = NULL,
   agegroups = "all", startplot = 1, xlab = "", ylab = "", main = "",
-  labels = NULL, ylim = NULL, lty = c(1, 3), col = c(1, 1), new = T,
-  ...)
+  labels = NULL, ylim = NULL, lty = c(1, 3), col = c(1, 1),
+  new = TRUE, ...)
 }
 \arguments{
-\item{nordpred.object}{An object of class \code{\link{nordpred.object}} or
-\code{\link{nordpred.prediction.object}}}
+\item{nordpred.object}{An object of class \code{nordpred} (see \code{\link{nordpred.object}}}
 
 \item{incidence}{Indicates whether to plot incidence or number of cases}
 
@@ -21,34 +20,34 @@ Default is no standardisation (crude rates), but using a standardisation
 \item{agegroups}{Which agegroups to include}
 
 \item{noperiods}{A list of candidate number of periods in prediction base
-(e.g 4:6).If the goodness of fit test is rejected based on the widest base
+(e.g \code{4:6}).If the goodness of fit test is rejected based on the widest base
 (e.g.6 periods), the first period is exclude etc. Use a fixed number to force
-a specific prediction base. If e.g. noperiods=5, predictions is based on the
+a specific prediction base. If e.g. \code{noperiods = 5}, predictions is based on the
 last 5 five-year periods, irrespective of the result a goodness of fit evaluation}
 
 \item{recent}{Project average trend or use the slope for the last 10 years?
-(If recent=F, average trend for the whole observation period is used, if recent=T,
-the slope from the last 10 years is used. If NULL (default) the choice is based
+(If \code{recent = FALSE}, average trend for the whole observation period is used, if \code{recent = TRUE},
+the slope from the last 10 years is used. If \code{NULL} (default) the choice is based
 on a significance test for departure from linear trend}
 
-\item{cuttrend}{Cut trend in predictions? Default is 0, 25 \%, 50 \%, 75 \%,
+\item{cuttrend}{Cut trend in predictions? Default is 0 \%, 25 \%, 50 \%, 75 \%,
 75 \% cut in drift (a vector of proportions of drift to cut in each projection period)}
 
 \item{linkfunc}{Link function to use in the model. Default is special
-version used in the Nordpred project ("power5"), where the link is g(x)=x^0.2,
-while the alternative is the poisson function ("poisson"), where the link is
-g(x)=log(x)}
+version used in the Nordpred project ('power5'), where the link is \eqn{g(x) = x^0.2},
+while the alternative is the poisson function ('poisson'), where the link is
+\eqn{g(x) = log(x)}}
 }
 \value{
-object of class \code{\link{nordpred.object}}.
+object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 }
 \description{
 \code{plot.nordpred} uses nordpred object to plot observed and predicted rates
 }
 \details{
 This function is a method for the generic function plot for class nordpred.
-It can be invoked by calling plot for an object x of the appropriate class,
-or directly by calling plot.nordpred regardless of the class of the object.
+It can be invoked by calling \code{\link{plot}} for an object x of the appropriate class,
+or directly by calling \code{plot.nordpred} regardless of the class of the object.
 For more available options, see \code{\link{plot}}.
 For details of the choice of prediction base, significance test for using
 recent slope, and for the power5 model, see Moller B., Fekjaer H. et al. (2002),
@@ -61,39 +60,38 @@ for the point estimates, but the variance estimates found via the glm-objects
 are wrong. For variance estimates, we would rather recommend using R.
 }
 \examples{
-# Reading data (Colon cancer for Norwegian males)
-indata <- read.table("data//colon-men-Norway.txt",header =T,sep=",",row.names=1)
-inpop1 <- read.table("data//men-Norway.txt",header =T,sep=",",row.names=1)
-inpop2 <- read.table("data//men-Norway-pred.txt",header =T,sep=",",row.names=1)
+# data (Colon cancer for Norwegian males)
+indata
 
-# Include possible population predictions
-inpop <- cbind(inpop1,inpop2)
+# Create dataset with observed and predicted population
+inpop <- cbind(inpop1, inpop2)
 
 # Fit model & predict new incidence:
-res <- nordpred(indata,inpop,startestage=5,startuseage=6,cuttrend=c(0,.25,.5,. 75,.75))
-res2 <- nordpred(indata,inpop,startestage=5,startuseage=6,
-     cuttrend=c(0,.25,.5,. 75,.75),linkfunc="poisson")
+res <- nordpred(indata, inpop, startestage = 5, startuseage = 6,
+         cuttrend = c(0, .25, .5, .75, .75))
+res2 <- nordpred(indata, inpop, startestage = 5, startuseage = 6,
+     cuttrend = c(0, .25, .5, .75, .75), linkfunc = 'poisson')
 
 # Get results with stanardiziotion:
 wstand <- c(0.12, 0.1, 0.09, 0.09, 0.08, 0.08, 0.06, 0.06, 0.06, 0.06,0.05,
             0.04, 0.04, 0.03, 0.02, 0.01, 0.005, 0.005)
-round(nordpred.getpred(res,incidence=T,standpop=NULL),2)
-round(nordpred.getpred(res,incidence=T,standpop=wstand),2)
+round(nordpred.getpred(res, incidence = TRUE, standpop = NULL), 2)
+round(nordpred.getpred(res, incidence = TRUE, standpop = wstand), 2)
 
 # Plot results:
-plot(res,standpop=wstand)
+plot(res, standpop = wstand)
 
 # Plot results with power5 and poisson links:
-plot(res2,standpop=wstand)
-plot(res,new=F,lty=c(1,2),standpop=wstand)
+plot(res2, standpop = wstand)
+plot(res, new = FALSE, lty = c(1, 2), standpop = wstand)
 
-# Different cut trend scenarios, using average drift (recent=F):
-plot(nordpred.prediction(est,startuseage=6,cuttrend=c(0,0,0,0,0),recent =F),
-     standpop=wstand,new=T)
-plot(nordpred.prediction(est,startuseage=6,cuttrend=c(1,1,1,1,1),recent =F),
-     standpop=wstand,new=F,lty=c(1,2))
-plot(nordpred.prediction(est,startuseage=6,cuttrend=c(0,.25,.5,.75,.75) ,
-     recent=F),standpop=wstand,new=F,lty=c(1,4))
+# Different cut trend scenarios, using average drift (recent = FALSE):
+plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(0,0,0,0,0),
+     recent = FALSE), standpop = wstand, new = TRUE)
+plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(1,1,1,1,1),
+     recent = FALSE), standpop = wstand, new = FALSE, lty = c(1,2))
+plot(nordpred.prediction(est,startuseage=6,cuttrend=c(0,.25,.5,.75,.75),
+     recent = FALSE), standpop = wstand, new = FALSE, lty = c(1,4))
 }
 \author{
 Harald Fekjaer and Bjorn Moller (Cancer Registry of Norway)
@@ -103,8 +101,8 @@ Harald Fekjaer and Bjorn Moller (Cancer Registry of Norway)
 \item A website for nordpred is available at:
 \url{http://www.kreftregisteret.no/software/nordpred/}
 \item Background for the methods can be found in: Moller B., Fekjaer H., Hakulinen T.,
-Sigvaldason H, Storm H. H., Talback M. and Haldorsen T "Prediction of cancer
-incidence in the Nordic countries: Empirical comparison of different approaches"
+Sigvaldason H, Storm H. H., Talback M. and Haldorsen T 'Prediction of cancer
+incidence in the Nordic countries: Empirical comparison of different approaches'
 Statistics in Medicine 2003; 22:2751-2766
 \item An application of the function, using all the default settings, can be
 found in: Moller B, Fekjaer H, Hakulinen T, Tryggvadottir L, Storm HH, Talback M,
@@ -113,12 +111,13 @@ year 2020. Eur J Cancer Prev Suppl 2002; 11: S1-S96
 }
 }
 \seealso{
-Other nordpred: \code{\link{nordpred.estimate.object}};
+Other nordpred: \code{\link{is.nordpred.estimate}},
   \code{\link{nordpred.estimate}};
+  \code{\link{is.nordpred}}, \code{\link{nordpred}};
+  \code{\link{nordpred.estimate.object}};
   \code{\link{nordpred.getpred}};
   \code{\link{nordpred.object}};
   \code{\link{nordpred.prediction}};
-  \code{\link{nordpred}};
   \code{\link{print.nordpred.estimate}};
   \code{\link{print.nordpred}};
   \code{\link{summary.nordpred}}

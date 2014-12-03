@@ -3,11 +3,11 @@
 \alias{summary.nordpred}
 \title{Makes a summary of a nordpred object}
 \usage{
-\method{summary}{nordpred}(nordpred.object, printpred = T, printcall = F,
-  digits = 1)
+\method{summary}{nordpred}(nordpred.object, printpred = TRUE,
+  printcall = FALSE, digits = 1)
 }
 \arguments{
-\item{nordpred.object}{An object of class \code{\link{nordpred.object}}}
+\item{nordpred.object}{An object of class \code{nordpred} (see \code{\link{nordpred.object}})}
 
 \item{printpred}{Indicates whether to print the observed and predicted number of cases}
 
@@ -16,15 +16,12 @@
 \item{digits}{Specifies the number of digits in the tabulation}
 }
 \value{
-object of class \code{\link{nordpred.object}}.
+object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 }
 \description{
-\code{summary.nordpred} uses a \code{\link{nordpred.object}} to summarize
+\code{summary.nordpred} uses a \code{nordpred} object (see \code{\link{nordpred.object}})
+to summarize
 the information
-}
-\details{
-\code{print.nordpred.estimate} prints the estimation information from a
-\code{\link{nordpred.estimate.object}}.
 }
 \section{Note for S-plus}{
 
@@ -33,23 +30,21 @@ for the point estimates, but the variance estimates found via the glm-objects
 are wrong. For variance estimates, we would rather recommend using R.
 }
 \examples{
-# Reading data (Colon cancer for Norwegian males)
-indata <- read.table("data//colon-men-Norway.txt",header =T,sep=",",row.names=1)
-inpop1 <- read.table("data//men-Norway.txt",header =T,sep=",",row.names=1)
-inpop2 <- read.table("data//men-Norway-pred.txt",header =T,sep=",",row.names=1)
+# data (Colon cancer for Norwegian males)
+indata
 
-# Include possible population predictions
-inpop <- cbind(inpop1,inpop2)
+# Create dataset with observed and predicted population
+inpop <- cbind(inpop1, inpop2)
 
 # Fit model & predict new incidence:
-res <- nordpred(indata,inpop,startestage=5,startuseage=6,cuttrend=c(0,.25,.5,. 75,.75))
-res2 <- nordpred(indata,inpop,startestage=5,startuseage=6,
-     cuttrend=c(0,.25,.5,. 75,.75),linkfunc="poisson")
+res <- nordpred(indata, inpop, startestage = 5, startuseage = 6, cuttrend = c(0,.25,.5,.75,.75))
+res2 <- nordpred(indata, inpop, startestage = 5, startuseage = 6,
+     cuttrend = c(0, .25, .5, .75, .75), linkfunc = 'poisson')
 
 # Print / get results:
 print(res)
 nordpred.getpred(res)
-summary(res,printpred=F)
+summary(res, printpred = FALSE)
 }
 \author{
 Harald Fekjaer and Bjorn Moller (Cancer Registry of Norway)
@@ -59,8 +54,8 @@ Harald Fekjaer and Bjorn Moller (Cancer Registry of Norway)
 \item A website for nordpred is available at:
 \url{http://www.kreftregisteret.no/software/nordpred/}
 \item Background for the methods can be found in: Moller B., Fekjaer H., Hakulinen T.,
-Sigvaldason H, Storm H. H., Talback M. and Haldorsen T "Prediction of cancer
-incidence in the Nordic countries: Empirical comparison of different approaches"
+Sigvaldason H, Storm H. H., Talback M. and Haldorsen T 'Prediction of cancer
+incidence in the Nordic countries: Empirical comparison of different approaches'
 Statistics in Medicine 2003; 22:2751-2766
 \item An application of the function, using all the default settings, can be
 found in: Moller B, Fekjaer H, Hakulinen T, Tryggvadottir L, Storm HH, Talback M,
@@ -69,12 +64,14 @@ year 2020. Eur J Cancer Prev Suppl 2002; 11: S1-S96
 }
 }
 \seealso{
-Other nordpred: \code{\link{nordpred.estimate.object}};
+Other nordpred: \code{\link{is.nordpred.estimate}},
   \code{\link{nordpred.estimate}};
+  \code{\link{is.nordpred}}, \code{\link{nordpred}};
+  \code{\link{nordpred.estimate.object}};
   \code{\link{nordpred.getpred}};
   \code{\link{nordpred.object}};
   \code{\link{nordpred.prediction}};
-  \code{\link{nordpred}}; \code{\link{plot.nordpred}};
+  \code{\link{plot.nordpred}};
   \code{\link{print.nordpred.estimate}};
   \code{\link{print.nordpred}}
 }

@@ -3,8 +3,8 @@
 \alias{nordpred.getpred}
 \title{Gets the observed and predicted incidence rates on matrix form}
 \usage{
-nordpred.getpred(nordpred.object, incidence = T, standpop = NULL,
-  excludeobs = F, byage, agegroups = "all")
+nordpred.getpred(nordpred.object, incidence = TRUE, standpop = NULL,
+  excludeobs = FALSE, byage, agegroups = "all")
 }
 \arguments{
 \item{nordpred.object}{An object based on \code{\link{nordpred}} or
@@ -26,11 +26,11 @@ standardised rates are given}
 includes age groups five to eighteen}
 }
 \value{
-an object of class \code{\link{nordpred}}.
+an object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 }
 \description{
-\code{nordpred.getpred} uses a nordpred object to extract the observed
-and predicted incidence rates
+\code{nordpred.getpred} uses a \code{nordpred} object (see \code{\link{nordpred.object}})
+to extract the observed and predicted incidence rates
 }
 \section{Note for S-plus}{
 
@@ -39,31 +39,27 @@ for the point estimates, but the variance estimates found via the glm-objects
 are wrong. For variance estimates, we would rather recommend using R.
 }
 \examples{
-# Reading package:
-source("nordpred.S")
+# data (Colon cancer for Norwegian males)
+indata
 
-# Reading data (Colon cancer for Norwegian males)
-indata <- read.table("data//colon-men-Norway.txt",header =T,sep=",",row.names=1)
-inpop1 <- read.table("data//men-Norway.txt",header =T,sep=",",row.names=1)
-inpop2 <- read.table("data//men-Norway-pred.txt",header =T,sep=",",row.names=1)
-
-# Include possible population predictions
-inpop <- cbind(inpop1,inpop2)
+# Create dataset with observed and predicted population
+inpop <- cbind(inpop1, inpop2)
 
 # Fit model & predict new incidence:
-res <- nordpred(indata,inpop,startestage=5,startuseage=6,cuttrend=c(0,.25,.5,. 75,.75))
-res2 <- nordpred(indata,inpop,startestage=5,startuseage=6,cuttrend=c(0,.25,.5,. 75,.75),linkfunc="poisson")
+res <- nordpred(indata, inpop, startestage = 5, startuseage = 6, cuttrend = c(0,.25,.5,.75,.75))
+res2 <- nordpred(indata, inpop, startestage = 5, startuseage = 6,
+         cuttrend = c(0, .25, .5, .75, .75), linkfunc = 'poisson')
 
 # Print / get results:
 print(res)
 nordpred.getpred(res)
-summary(res,printpred=F)
+summary(res, printpred = FALSE)
 
 # Get results with standardisation:'
 wstand <- c(0.12, 0.1, 0.09, 0.09, 0.08, 0.08, 0.06, 0.06, 0.06, 0.06,0.05,
             0.04, 0.04, 0.03, 0.02, 0.01, 0.005, 0.005)
-round(nordpred.getpred(res,incidence=T,standpop=NULL),2)
-round(nordpred.getpred(res,incidence=T,standpop=wstand),2)
+round(nordpred.getpred(res, incidence = TRUE, standpop = NULL), 2)
+round(nordpred.getpred(res, incidence = TRUE, standpop = wstand), 2)
 }
 \author{
 Harald Fekjaer and Bjorn Moller (Cancer Registry of Norway)
@@ -73,8 +69,8 @@ Harald Fekjaer and Bjorn Moller (Cancer Registry of Norway)
 \item A website for nordpred is available at:
 \url{http://www.kreftregisteret.no/software/nordpred/}
 \item Background for the methods can be found in: Moller B., Fekjaer H., Hakulinen T.,
-Sigvaldason H, Storm H. H., Talback M. and Haldorsen T "Prediction of cancer
-incidence in the Nordic countries: Empirical comparison of different approaches"
+Sigvaldason H, Storm H. H., Talback M. and Haldorsen T 'Prediction of cancer
+incidence in the Nordic countries: Empirical comparison of different approaches'
 Statistics in Medicine 2003; 22:2751-2766
 \item An application of the function, using all the default settings, can be
 found in: Moller B, Fekjaer H, Hakulinen T, Tryggvadottir L, Storm HH, Talback M,
@@ -83,11 +79,13 @@ year 2020. Eur J Cancer Prev Suppl 2002; 11: S1-S96
 }
 }
 \seealso{
-Other nordpred: \code{\link{nordpred.estimate.object}};
+Other nordpred: \code{\link{is.nordpred.estimate}},
   \code{\link{nordpred.estimate}};
+  \code{\link{is.nordpred}}, \code{\link{nordpred}};
+  \code{\link{nordpred.estimate.object}};
   \code{\link{nordpred.object}};
   \code{\link{nordpred.prediction}};
-  \code{\link{nordpred}}; \code{\link{plot.nordpred}};
+  \code{\link{plot.nordpred}};
   \code{\link{print.nordpred.estimate}};
   \code{\link{print.nordpred}};
   \code{\link{summary.nordpred}}
