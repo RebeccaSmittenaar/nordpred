@@ -1,0 +1,10 @@
+Package: nordpred
+Type: Package
+Title: Prediction of cancer incidence (as used in the Nordpred project).
+Version: 1.1
+License: What license is it under?
+Date: 2014-12-01
+Author: Bjorn Moller and Harald Fekjaer
+Maintainer: Harald Fekjaer <hf@kreftregisteret.no>
+Description: More about what it does (maybe more than one line)
+Url: http://www.kreftregisteret.no/software/nordpred/
