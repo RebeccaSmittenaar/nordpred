@@ -102,7 +102,7 @@
 #' plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(1, 1, 1, 1, 1), recent = FALSE),
 #'      standpop = wstand, new = FALSE, lty = c(1, 2)) 
 #' plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(0, .25, .5, .75, .75),
-#'      recent = FALSSE), standpop = wstand, new = FALSE, lty = c(1, 4))
+#'      recent = FALSE), standpop = wstand, new = FALSE, lty = c(1, 4))
 #'      
 #' @export
 #' @family nordpred
