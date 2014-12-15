@@ -1,6 +1,6 @@
 #' Incidence data for colon cancer among males in Norway
 #'
-#' A dataset containing observed number of colon cancer cases among Norweigen men.
+#' A dataset containing observed number of colon cancer cases among Norwegian men.
 #'
 #' @format A data frame with 18 rows and 8 variables:
 #' \describe{
@@ -16,7 +16,7 @@
 
 #' Norweigen male population 1958-1997
 #'
-#' A dataset containing observed population numbers for Norweigen men.
+#' A dataset containing observed population numbers for Norwegian men.
 #'
 #' @format A data frame with 18 rows and 8 variables:
 #' \describe{
