@@ -4,13 +4,13 @@ Title: Prediction of cancer incidence (as used in the Nordpred project)
 Version: 1.1
 License: GPL-2
 Date: 2014-12-01
-Author: Bjorn Moller and Harald Fekjaer (scripts turned into package by Erik
-    Bulow)
-Maintainer: Harald Fekjaer <hf@kreftregisteret.no>
-Description: The Nordpred software package is a package of R and S-PLUS
-    functions for predicting trends in cancer incidence, using a special
-    version of the Age-Period-Cohort model (APC). The package is originally
-    written by Harald Fekjaer and Bjorn Moller at the Cancer Registry of Norway
+Author: Bjorn Moller and Harald Weedon-Fekjaer 
+        (scripts turned into package by Erik Bulow)
+Maintainer: Harald Fekjaer <nordpred-admin@medisin.uio.no>
+Description: The Nordpred software package is a package of R functions 
+	for predicting trends in cancer incidence, using a special version of 
+	the Age-Period-Cohort model (APC). The package is originally written 
+	by Harald Weedon-Fekjaer and Bjorn Moller at the Cancer Registry of Norway
     as part of a larger cancer prediction project with financial support from
     the Nordic Cancer Union (NCU).
 Url: http://www.kreftregisteret.no/software/nordpred/
