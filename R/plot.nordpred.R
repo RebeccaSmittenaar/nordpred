@@ -4,34 +4,24 @@
 #' \code{plot.nordpred} uses nordpred object to plot observed and predicted rates
 #' 
 #' This function is a method for the generic function plot for class nordpred. 
-#' It can be invoked by calling \code{\link{plot}} for an object x of the appropriate class, 
+#' It can be invoked by calling \code{\link{plot}} for an object of the appropriate class, 
 #' or directly by calling \code{plot.nordpred} regardless of the class of the object. 
 #' For more available options, see \code{\link{plot}}. 
 #' For details of the choice of prediction base, significance test for using 
 #' recent slope, and for the power5 model, see Moller B., Fekjaer H. et al. (2002), 
 #' see references.
 #' 
-#' @param nordpred.object An object of class \code{nordpred} (see \code{\link{nordpred.object}}
+#' @param x An object of class \code{nordpred} (see \code{\link{nordpred.object}}
 #' @param incidence Indicates whether to plot incidence or number of cases
 #' @param standpop A vector of weights for age standardisation. 
 #' Default is no standardisation (crude rates), but using a standardisation 
 #' (for the suitable no of age groups) is recommended
 #' @param agegroups Which agegroups to include
-#' @param noperiods A list of candidate number of periods in prediction base 
-#' (e.g \code{4:6}).If the goodness of fit test is rejected based on the widest base 
-#' (e.g.6 periods), the first period is exclude etc. Use a fixed number to force 
-#' a specific prediction base. If e.g. \code{noperiods = 5}, predictions is based on the 
-#' last 5 five-year periods, irrespective of the result a goodness of fit evaluation
-#' @param recent Project average trend or use the slope for the last 10 years? 
-#' (If \code{recent = FALSE}, average trend for the whole observation period is used, if \code{recent = TRUE}, 
-#' the slope from the last 10 years is used. If \code{NULL} (default) the choice is based 
-#' on a significance test for departure from linear trend
-#' @param cuttrend Cut trend in predictions? Default is 0 \%, 25 \%, 50 \%, 75 \%, 
-#' 75 \% cut in drift (a vector of proportions of drift to cut in each projection period)
-#' @param linkfunc Link function to use in the model. Default is special 
-#' version used in the Nordpred project ('power5'), where the link is \eqn{g(x) = x^0.2}, 
-#' while the alternative is the poisson function ('poisson'), where the link is 
-#' \eqn{g(x) = log(x)}
+#' @param startplot Numeric
+#' @param new Should a new plot be created (\code{new = TRUE} by default) or should new graphs be added to an existing plot (\code{new = FALSE})?
+#' @param xlab,ylab,main,ylim,lty,col Arguments passed to \code{\link{plot}} and \code{\link{par}}
+#' @param labels character
+#' @param ... Arguments passed to \code{\link{plot}}
 #' 
 #' @return object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 #' 
@@ -84,6 +74,7 @@
 #' plot(res, new = FALSE, lty = c(1, 2), standpop = wstand)
 #' 
 #' # Different cut trend scenarios, using average drift (recent = FALSE): 
+#' est <- nordpred.estimate(cases = indata, pyr = inpop, noperiod = 4, startestage = 5)
 #' plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(0,0,0,0,0), 
 #'      recent = FALSE), standpop = wstand, new = TRUE) 
 #' plot(nordpred.prediction(est, startuseage = 6, cuttrend = c(1,1,1,1,1),
@@ -95,23 +86,23 @@
 #' @family nordpred
 
 
-plot.nordpred <- function(nordpred.object, incidence = TRUE, standpop = NULL, agegroups = "all", 
+plot.nordpred <- function(x, incidence = TRUE, standpop = NULL, agegroups = "all", 
     startplot = 1, xlab = "", ylab = "", main = "", labels = NULL, ylim = NULL, lty = c(1, 
         3), col = c(1, 1), new = TRUE, ...) {
     
-    if (class(nordpred.object) != "nordpred") {
-        stop("Variable \"nordpred.object\" must be of type \"nordpred\"")
+    if (class(x) != "nordpred") {
+        stop("Variable \"x\" must be of type \"nordpred\"")
     }
     
     # Seting internal variables:
-    nopred <- nordpred.object$nopred
+    nopred <- x$nopred
     if (is.null(labels)) {
-        labels <- dimnames(nordpred.object$predictions)[[2]]
+        labels <- dimnames(x$predictions)[[2]]
         labels <- labels[startplot:length(labels)]
     }
     
     # Reding & formating data:
-    indata <- nordpred.getpred(nordpred.object, incidence = incidence, standpop = standpop, 
+    indata <- nordpred.getpred(x, incidence = incidence, standpop = standpop, 
         agegroups = agegroups, byage = F)
     indata <- indata[startplot:length(indata)]
     
@@ -134,5 +125,5 @@ plot.nordpred <- function(nordpred.object, incidence = TRUE, standpop = NULL, ag
         ...)
     
     # Returning object as invisible
-    invisible(nordpred.object)
+    invisible(x)
 } 

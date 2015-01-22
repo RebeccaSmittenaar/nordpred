@@ -4,12 +4,14 @@
 \alias{print.nordpred}
 \title{Prints a nordpred object}
 \usage{
-\method{print}{nordpred}(nordpred.object, digits = 1)
+\method{print}{nordpred}(x, digits = 1, ...)
 }
 \arguments{
-\item{nordpred.object}{An object of class \code{nordpred} (see \code{\link{nordpred.object}})}
+\item{x}{An object of class \code{nordpred} (see \code{\link{nordpred.object}})}
 
 \item{digits}{Specifies the number of digits in the tabulation}
+
+\item{...}{ignored}
 }
 \value{
 object of class \code{nordpred} (see \code{\link{nordpred.object}}).

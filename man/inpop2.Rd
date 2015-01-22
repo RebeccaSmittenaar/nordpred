@@ -4,20 +4,16 @@
 \name{inpop2}
 \alias{inpop2}
 \title{Predicted Norweigen male population 1998-2022}
-\format{A data frame with 18 rows and 5 variables:
-\describe{
-  \item{rows}{Each row identifies a five year age interval, from 0-4 to 85+}
-  \item{columns}{Each column identifies a five year period, from 1998-2002 to 2018-2022}
-}}
+\format{A data frame with 18 rows and 5 variables:}
 \usage{
 inpop2
 }
 \description{
 A dataset containing predicted population numbers for Norweigen men.
+\describe{
+  \item{rows}{Each row identifies a five year age interval, from 0-4 to 85+}
+  \item{columns}{Each column identifies a five year period, from 1998-2002 to 2018-2022}
 }
-\examples{
-inpop2
-cbind(inpop1, inpop2)
 }
 \seealso{
 Other nordpred_example_data: \code{\link{indata}};

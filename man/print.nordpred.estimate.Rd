@@ -4,18 +4,20 @@
 \alias{print.nordpred.estimate}
 \title{Prints a nordpred estimate object}
 \usage{
-\method{print}{nordpred.estimate}(nordpred.estimate.object)
+\method{print}{nordpred.estimate}(x, ...)
 }
 \arguments{
-\item{nordpred.estimate.object}{An object of class \code{nordpred.estimate}
+\item{x}{An object of class \code{nordpred.estimate}
 (see \code{\link{nordpred.estimate.object}}).}
+
+\item{...}{ignored}
 }
 \value{
 object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 }
 \description{
 \code{print.nordpred.estimate} prints the estimation information from a
-\code{nordpred.estimate} object (see \code{\link{nordpres.estimate.object}}).
+\code{nordpred.estimate} object (see \code{\link{nordpred.estimate.object}}).
 }
 \section{Note for S-plus}{
 

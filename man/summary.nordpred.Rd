@@ -4,17 +4,19 @@
 \alias{summary.nordpred}
 \title{Makes a summary of a nordpred object}
 \usage{
-\method{summary}{nordpred}(nordpred.object, printpred = TRUE,
-  printcall = FALSE, digits = 1)
+\method{summary}{nordpred}(object, printpred = TRUE, printcall = FALSE,
+  digits = 1, ...)
 }
 \arguments{
-\item{nordpred.object}{An object of class \code{nordpred} (see \code{\link{nordpred.object}})}
+\item{object}{An object of class \code{nordpred} (see \code{\link{nordpred.object}})}
 
 \item{printpred}{Indicates whether to print the observed and predicted number of cases}
 
 \item{printcall}{Indicates whether to print the function call}
 
 \item{digits}{Specifies the number of digits in the tabulation}
+
+\item{...}{ignored}
 }
 \value{
 object of class \code{nordpred} (see \code{\link{nordpred.object}}).

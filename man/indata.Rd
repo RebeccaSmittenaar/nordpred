@@ -4,19 +4,16 @@
 \name{indata}
 \alias{indata}
 \title{Incidence data for colon cancer among males in Norway}
-\format{A data frame with 18 rows and 8 variables:
-\describe{
-  \item{rows}{Each row identifies a five year age interval, from 0-4 to 85+}
-  \item{columns}{Each column identifies a five year period, from 1958-1962 to 1993-1997}
-}}
+\format{A data frame with 18 rows and 8 variables}
 \usage{
 indata
 }
 \description{
-A dataset containing observed number of colon cancer cases among Norweigen men.
+A dataset containing observed number of colon cancer cases among Norwegian men.
+ \describe{
+  \item{rows}{Each row identifies a five year age interval, from 0-4 to 85+}
+  \item{columns}{Each column identifies a five year period, from 1958-1962 to 1993-1997}
 }
-\examples{
-indata
 }
 \seealso{
 Other nordpred_example_data: \code{\link{inpop1}};
