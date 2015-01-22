@@ -4,7 +4,7 @@ Title: Prediction of cancer incidence (as used in the Nordpred project)
 Version: 1.1
 License: GPL-2
 Date: 2014-12-01
-Author: Bjorn Moller and Harald Fekjaer (scripts turned into package by Erik
+Author: Bjorn Moller and Harald Fekjaer (scripts bundled as package by Erik
     Bulow)
 Maintainer: Harald Fekjaer <hf@kreftregisteret.no>
 Description: The Nordpred software package is a package of R and S-PLUS
