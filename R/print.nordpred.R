@@ -4,8 +4,9 @@
 #' \code{print.nordpred} prints the observed and predicted number of cases in 
 #' a nordpred object
 #' 
-#' @param nordpred.object An object of class \code{nordpred} (see \code{\link{nordpred.object}})
+#' @param x An object of class \code{nordpred} (see \code{\link{nordpred.object}})
 #' @param digits Specifies the number of digits in the tabulation
+#' @param ... ignored
 #' 
 #' @return object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 #' 
@@ -53,21 +54,21 @@
 #' @family nordpred
 
 
-print.nordpred <- function(nordpred.object, digits = 1) {
+print.nordpred <- function(x, digits = 1, ...) {
     
-    if (class(nordpred.object) != "nordpred") {
-        stop("Variable \"nordpred.object\" must be of type \"nordpred\"")
+    if (class(x) != "nordpred") {
+        stop("Variable \"x\" must be of type \"nordpred\"")
     }
     
     # Setting internal variables:
-    obsto <- names(nordpred.object$predictions)[dim(nordpred.object$predictions)[2] - 
-        nordpred.object$nopred]
+    obsto <- names(x$predictions)[dim(x$predictions)[2] - 
+        x$nopred]
     # Print information about object:
     cat("Observed and predicted values:")
     cat("(observations up to", obsto, ")\n")
-    print(round(as.matrix(nordpred.object$predictions), digits = digits))
+    print(round(as.matrix(x$predictions), digits = digits))
     cat("\n  Call: ")
-    dput(attr(nordpred.object, "Call"))
-    invisible(nordpred.object)
+    dput(attr(x, "Call"))
+    invisible(x)
     
 } 

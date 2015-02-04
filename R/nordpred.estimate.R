@@ -12,12 +12,12 @@
 #' @param pyr A \code{data.frame} with observed and forecasted person years. 
 #' @param startestage Youngest age group to include in the regression model
 #' @param noperiod The number of periods to be used in prediction base.
-#' @param lincfunc Link function to use in the model. 
+#' @param linkfunc Link function to use in the model. 
 #' Default is special version used in the Nordpred project ('power5'), 
 #' where the link is \eqn{g(x) = x^0.2}, while the alternative is the poisson function 
 #' ('poisson'), where the link is \eqn{g(x) = log(x)}
+#' @param find_best_model Logical
 #' @param x an object to test for class \code{nordpred}
-
 #' 
 #' @return 
 #' \code{nordpred.estimate} returns an object of class \code{nordpred.estimate} 
@@ -71,7 +71,6 @@
 #' @export
 #' @family nordpred
 #' @name nordpred.estimate
-
 
 nordpred.estimate <- function(cases, pyr, noperiod, startestage, linkfunc = "power5", 
     find_best_model = FALSE) {

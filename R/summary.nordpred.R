@@ -7,10 +7,11 @@
 #' the information
 #' 
 #' 
-#' @param nordpred.object An object of class \code{nordpred} (see \code{\link{nordpred.object}}) 
+#' @param object An object of class \code{nordpred} (see \code{\link{nordpred.object}}) 
 #' @param printpred Indicates whether to print the observed and predicted number of cases
 #' @param printcall Indicates whether to print the function call
 #' @param digits Specifies the number of digits in the tabulation
+#' @param ... ignored
 #' 
 #' @return object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 #' 
@@ -57,24 +58,24 @@
 #' @family nordpred
 
 
-summary.nordpred <- function(nordpred.object, printpred = TRUE, printcall = FALSE, digits = 1) {
+summary.nordpred <- function(object, printpred = TRUE, printcall = FALSE, digits = 1, ...) {
     
-    if (class(nordpred.object) != "nordpred") {
-        stop("Variable \"nordpred.object\" must be of type \"nordpred\"")
+    if (class(object) != "nordpred") {
+        stop("Variable \"object\" must be of type \"nordpred\"")
     }
     
     # Setting internal variables:
-    obsto <- names(nordpred.object$predictions)[dim(nordpred.object$predictions)[2] - 
-        nordpred.object$nopred]
+    obsto <- names(object$predictions)[dim(object$predictions)[2] - 
+        object$nopred]
     
-    if (!is.null(nordpred.object$pvaluerecent)) {
-        precent <- round(nordpred.object$pvaluerecent, 4)
+    if (!is.null(object$pvaluerecent)) {
+        precent <- round(object$pvaluerecent, 4)
     } else {
         precent <- NA
     }
     
-    if (!is.null(nordpred.object$gofpvalue)) {
-        gofpvalue <- round(nordpred.object$gofpvalue, 4)
+    if (!is.null(object$gofpvalue)) {
+        gofpvalue <- round(object$gofpvalue, 4)
     } else {
         gofpvalue <- NA
     }
@@ -83,7 +84,7 @@ summary.nordpred <- function(nordpred.object, printpred = TRUE, printcall = FALS
     if (printpred) {
         cat("Observed and predicted values:")
         cat("(observations up to", obsto, ")\n")
-        print(round(as.matrix(nordpred.object$predictions), digits = digits))
+        print(round(as.matrix(object$predictions), digits = digits))
         cat("\n")
     }
     cat("\nPrediction done with:\n")
@@ -93,9 +94,9 @@ summary.nordpred <- function(nordpred.object, printpred = TRUE, printcall = FALS
         "Number of periods used in estimate (noperiod):", "P-value for goodness of fit:", 
         "Used recent (recent):", "P-value for recent:", "First age group used (startuseage):", 
         "First age group estimated (startestage):")
-    moptions[, 2] <- c(nordpred.object$nopred, paste(nordpred.object$cuttrend, collapse = " , "), 
-        nordpred.object$noperiod, gofpvalue, nordpred.object$recent, precent, nordpred.object$startuseage, 
-        nordpred.object$startestage)
+    moptions[, 2] <- c(object$nopred, paste(object$cuttrend, collapse = " , "), 
+        object$noperiod, gofpvalue, object$recent, precent, object$startuseage, 
+        object$startestage)
     maxl <- max(nchar(moptions[, 1]))
     
     for (i in 1:dim(moptions)[1]) {
@@ -105,8 +106,8 @@ summary.nordpred <- function(nordpred.object, printpred = TRUE, printcall = FALS
     
     if (printcall) {
         cat("\n  Call: ")
-        dput(attr(nordpred.object, "Call"))
+        dput(attr(object, "Call"))
     }
-    invisible(nordpred.object)
+    invisible(object)
 }
  

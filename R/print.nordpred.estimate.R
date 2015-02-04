@@ -2,10 +2,11 @@
 #' Prints a nordpred estimate object
 #' 
 #' \code{print.nordpred.estimate} prints the estimation information from a 
-#' \code{nordpred.estimate} object (see \code{\link{nordpres.estimate.object}}).
+#' \code{nordpred.estimate} object (see \code{\link{nordpred.estimate.object}}).
 #' 
-#' @param nordpred.estimate.object An object of class \code{nordpred.estimate} 
+#' @param x An object of class \code{nordpred.estimate} 
 #' (see \code{\link{nordpred.estimate.object}}). 
+#' @param ... ignored
 #' 
 #' @return object of class \code{nordpred} (see \code{\link{nordpred.object}}).
 #' 
@@ -54,19 +55,19 @@
 #' @export
 #' @family nordpred
 
-print.nordpred.estimate <- function(nordpred.estimate.object) {
+print.nordpred.estimate <- function(x, ...) {
     
-    if (class(nordpred.estimate.object) != "nordpred.estimate") {
-        stop("Variable \"nordpred.estimate.object\" must be of type \"nordpred.estimate\"")
+    if (class(x) != "nordpred.estimate") {
+        stop("Variable \"x\" must be of type \"nordpred.estimate\"")
     }
     
     # Print information about object:
     cat("Fit of cancer prediction model (as of Nordpred project)\n")
-    cat("Fitted for", nordpred.estimate.object$noperiod, "periods")
-    cat(", with estimation from age group number", nordpred.estimate.object$startestage, 
+    cat("Fitted for", x$noperiod, "periods")
+    cat(", with estimation from age group number", x$startestage, 
         "\n")
     cat("  Call: ")
-    dput(attr(nordpred.estimate.object, "Call"))
+    dput(attr(x, "Call"))
     
-    invisible(nordpred.estimate.object)
+    invisible(x)
 } 

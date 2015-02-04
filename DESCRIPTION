@@ -15,6 +15,8 @@ Description: The Nordpred software package is a package of R functions
     the Nordic Cancer Union (NCU).
 Url: http://www.kreftregisteret.no/software/nordpred/
 LazyData: true
+Depends:
+    R (>= 2.10)
 Suggests:
     knitr
 VignetteBuilder: knitr

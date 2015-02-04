@@ -53,7 +53,8 @@
 #' 
 #' # Use estimat object to make predictions:
 #' res <- nordpred.prediction(est,startuseage = 6, cuttrend = c(0, .25, .5, .75, .75), recent = TRUE)
-#' res2 <- nordpred.prediction(est2, startuseage = 6, cuttrend = c(0, .25, .5, .75, .75), recent = TRUE)
+#' res2 <- nordpred.prediction(est2, startuseage = 6, 
+#'              cuttrend = c(0, .25, .5, .75, .75), recent = TRUE)
 #' 
 #' # Get results: 
 #' print(res) 
